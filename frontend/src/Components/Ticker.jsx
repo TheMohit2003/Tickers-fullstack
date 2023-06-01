@@ -6,6 +6,7 @@ const TickersForm = () => {
   const [tickers, setTickers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [fetchCount, setFetchCount] = useState(0);
 
   useEffect(() => {
     fetchTickers();
@@ -13,10 +14,21 @@ const TickersForm = () => {
 
   const fetchTickers = async () => {
     try {
-      const response = await fetch('http://localhost:5000/tickers');
-      const data = await response.json();
-      setTickers(data);
-      setLoading(false);
+      setLoading(true); // Set loading state to true before fetching data
+
+      if (fetchCount < 2) {
+        // Fetch data for the first 3 seconds, 2 times
+        setTimeout(async () => {
+          const response = await fetch('http://localhost:5000/tickers');
+          const data = await response.json();
+          setTickers(data);
+          setLoading(false);
+          setFetchCount(fetchCount + 1);
+        }, 1500);
+      } else {
+        // Stop fetching data after the initial fetches
+        setLoading(false);
+      }
     } catch (error) {
       console.error('Error fetching tickers:', error);
       setLoading(false);
@@ -37,7 +49,7 @@ const TickersForm = () => {
       <div className="tickers-table">
         <h1>Tickers</h1>
         {loading ? (
-          <p>Data is loading , kindly wait...</p>
+          <p>Data is loading, please wait...</p>
         ) : (
           <table className="table">
             <thead>
@@ -51,16 +63,22 @@ const TickersForm = () => {
               </tr>
             </thead>
             <tbody>
-              {tickers.map((ticker) => (
-                <tr key={ticker._id}>
-                  <td>{ticker.name}</td>
-                  <td>{ticker.last}</td>
-                  <td>{ticker.buy}</td>
-                  <td>{ticker.sell}</td>
-                  <td>{ticker.volume}</td>
-                  <td>{ticker.base_unit}</td>
+              {tickers.length > 0 ? (
+                tickers.map((ticker) => (
+                  <tr key={ticker._id}>
+                    <td>{ticker.name}</td>
+                    <td>{ticker.last}</td>
+                    <td>{ticker.buy}</td>
+                    <td>{ticker.sell}</td>
+                    <td>{ticker.volume}</td>
+                    <td>{ticker.base_unit}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6">No tickers found.</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         )}
