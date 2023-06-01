@@ -1,0 +1,20 @@
+.container {
+    position: relative;
+  }
+  
+  .mode-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+  }
+  
+  .dark-mode {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .tickers-table {
+    margin-top: 50px;
+  }
+  

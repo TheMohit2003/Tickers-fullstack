@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "npx prettier write .",
+    "start": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm run serve\""
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,8 @@
   "homepage": "https://github.com/TheMohit2003/Tickers-fullstack#readme",
   "devDependencies": {
     "prettier": "2.8.8"
+  },
+  "dependencies": {
+    "concurrently": "^8.1.0"
   }
 }

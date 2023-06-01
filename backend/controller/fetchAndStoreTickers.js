@@ -3,6 +3,10 @@ const Ticker = require('../models/ticker');
 
 async function fetchAndStoreTickers() {
   try {
+    // Delete existing tickers
+    await Ticker.deleteMany();
+    console.log('Data deleted.');
+
     const response = await axios.get('https://api.wazirx.com/api/v2/tickers');
 
     const tickersData = response.data;

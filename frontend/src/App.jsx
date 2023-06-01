@@ -1,9 +1,11 @@
-import React from 'react'
+import Ticker from './Components/Ticker';
 
 const App = () => {
   return (
-    <div>App</div>
-  )
-}
+    <div>
+      <Ticker />
+    </div>
+  );
+};
 
-export default App
+export default App;
